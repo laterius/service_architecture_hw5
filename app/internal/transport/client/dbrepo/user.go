@@ -19,6 +19,11 @@ func (r *userRepo) Get(id domain.UserId) (u *domain.User, err error) {
 	return
 }
 
+func (r *userRepo) Login(username domain.Username, password domain.Password) (u *domain.User, err error) {
+	err = r.db.Model(u).Where("username = ?", username).First(&u).Error
+	return
+}
+
 func (r *userRepo) Exists(id domain.UserId) (exists bool, err error) {
 	err = r.db.Model(&domain.User{}).
 		Select("count(*) > 0").

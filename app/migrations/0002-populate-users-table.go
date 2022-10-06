@@ -11,6 +11,7 @@ type User0002 struct {
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
 	Phone     string `json:"phone"`
+	Password  string `json:"password"`
 }
 
 func (u User0002) TableName() string {
@@ -20,9 +21,9 @@ func (u User0002) TableName() string {
 func init() {
 
 	users := []User0002{
-		{Username: "j.smith", FirstName: "James", LastName: "Smith", Email: "j.smith@mail.com", Phone: "+11111"},
-		{Username: "j.johnson", FirstName: "John", LastName: "Johnson", Email: "j.johnson@mail.com", Phone: "+22222"},
-		{Username: "r.williams", FirstName: "Robert", LastName: "Williams", Email: "r.williams@mail.com", Phone: "+33333"},
+		{Username: "j.smith", FirstName: "James", LastName: "Smith", Email: "j.smith@mail.com", Phone: "+11111", Password: "qwerty"},
+		{Username: "j.johnson", FirstName: "John", LastName: "Johnson", Email: "j.johnson@mail.com", Phone: "+22222", Password: "12345"},
+		{Username: "r.williams", FirstName: "Robert", LastName: "Williams", Email: "r.williams@mail.com", Phone: "+33333", Password: "lostpass"},
 	}
 
 	mx := &gormigrate.Migration{

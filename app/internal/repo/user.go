@@ -6,6 +6,10 @@ type UserReader interface {
 	Get(domain.UserId) (*domain.User, error)
 }
 
+type UserLoginReader interface {
+	Login(domain.Username, domain.Password) (*domain.User, error)
+}
+
 type UserObserver interface {
 	Exists(domain.UserId) (bool, error)
 }
@@ -33,4 +37,5 @@ type UserRepo interface {
 	UserUpdater
 	UserPartialUpdater
 	UserDeleter
+	UserLoginReader
 }

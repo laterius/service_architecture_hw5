@@ -1,8 +1,8 @@
 build:
-	docker build -f docker/Dockerfile . -t 34234247632/otus-msa-hw5:v1.1
+	docker build -f docker/Dockerfile . -t 34234247632/otus-msa-hw5:v1.5
 
 push:
-	docker push 34234247632/otus-msa-hw5:v1.1
+	docker push 34234247632/otus-msa-hw5:v1.5
 
 docker-start:
 	cd docker && docker-compose up -d

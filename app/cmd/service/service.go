@@ -47,29 +47,10 @@ func main() {
 	deleteUserHandler := transport.NewDeleteUser(userService)
 	getContactHandler := transport.GetContact()
 	getHomeHandler := transport.GetHomePage()
-
-	//us, err := models.NewUserService(db)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//staticC := controllers.NewStatic() // Parsing static templates
-	//usersC := controllers.NewUsers(us) // Handling User Controller
-	//r := mux.NewRouter()
-	//r.Handle("/contact", staticC.Contact).Methods("GET")
-	//r.HandleFunc("/", usersC.New).Methods("GET")
-	//r.HandleFunc("/signup", usersC.New).Methods("GET")
-	//r.HandleFunc("/signup", usersC.Create).Methods("POST")
-	//r.Handle("/login", usersC.LoginView).Methods("GET")
-	//r.HandleFunc("/login", usersC.Login).Methods("POST")
-	//r.HandleFunc("/cookietest", usersC.CookieTest).Methods("GET")
-	//r.NotFoundHandler = http.HandlerFunc(notfound)
-	//fmt.Println("Starting Server on 0.0.0.0:8080")
-	//go func() {
-	//	err := http.ListenAndServe(":8080", r)
-	//	if err != nil {
-	//		panic(err)
-	//	}
-	//}()
+	signUpGet := transport.SignUpGet()
+	signUpPost := transport.SignUpPost(userService)
+	loginGet := transport.LoginGet()
+	loginPost := transport.LoginPost(userService)
 
 	engine := html.New("./views", ".html")
 	srv := fiber.New(fiber.Config{Views: engine})
@@ -94,6 +75,10 @@ func main() {
 	srv.Get("/probe/ready", transport.RespondOk)
 	srv.Get("/contact", getContactHandler.Handle())
 	srv.Get("/", getHomeHandler.Handle())
+	srv.Get("/signup", signUpGet.Handle())
+	srv.Post("/signup", signUpPost.Handle())
+	srv.Get("/login", loginGet.Handle())
+	srv.Post("/login", loginPost.Handle())
 
 	srv.All("/*", transport.DefaultResponse)
 
