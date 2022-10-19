@@ -51,9 +51,12 @@ func main() {
 	signUpPost := transport.SignUpPost(userService)
 	loginGet := transport.LoginGet()
 	loginPost := transport.LoginPost(userService)
+	profileGet := transport.NewGetProfile(userService)
+	profilePost := transport.NewPostProfile(userService)
 
 	engine := html.New("./views", ".html")
 	srv := fiber.New(fiber.Config{Views: engine})
+	//srv.Static("/static")
 
 	prometheus := httpmw.New("otus-msa-hw5")
 	prometheus.RegisterAt(srv, "/metrics")
@@ -79,6 +82,8 @@ func main() {
 	srv.Post("/signup", signUpPost.Handle())
 	srv.Get("/login", loginGet.Handle())
 	srv.Post("/login", loginPost.Handle())
+	srv.Get("/profile/:token", profileGet.Handle())
+	srv.Post("/profile", profilePost.Handle())
 
 	srv.All("/*", transport.DefaultResponse)
 

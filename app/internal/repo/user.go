@@ -10,6 +10,10 @@ type UserLoginReader interface {
 	Login(domain.Username, domain.Password) (*domain.User, error)
 }
 
+type UserRememberReader interface {
+	ByRemember(rememberHash string) (u *domain.User, err error)
+}
+
 type UserObserver interface {
 	Exists(domain.UserId) (bool, error)
 }
@@ -38,4 +42,5 @@ type UserRepo interface {
 	UserPartialUpdater
 	UserDeleter
 	UserLoginReader
+	UserRememberReader
 }

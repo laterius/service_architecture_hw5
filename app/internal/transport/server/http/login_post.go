@@ -36,6 +36,6 @@ func (h *loginPostHandler) Handle() fiber.Handler {
 			HTTPOnly: true,
 		})
 
-		return ctx.SendString(fmt.Sprintf("Login success! login = %s, password = %s", user.Username, user.Password))
+		return ctx.SendString(fmt.Sprintf("Login success! login = %s, token = %s", user.Username, user.Remember))
 	}
 }

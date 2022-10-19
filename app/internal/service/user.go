@@ -22,12 +22,15 @@ var (
 )
 
 type UserData struct {
-	Username  string `json:"username" schema:"username"`
-	FirstName string `json:"firstName" schema:"firstName"`
-	LastName  string `json:"lastName" schema:"lastName"`
-	Email     string `json:"email" schema:"email"`
-	Phone     string `json:"phone" schema:"phone"`
-	Password  string `json:"password" schema:"password"`
+	Username     string `json:"username" schema:"username"`
+	FirstName    string `json:"firstName" schema:"firstName"`
+	LastName     string `json:"lastName" schema:"lastName"`
+	Email        string `json:"email" schema:"email"`
+	Phone        string `json:"phone" schema:"phone"`
+	Password     string `json:"password" schema:"password"`
+	PasswordHash string `json:"passwordHash" schema:"passwordHash"`
+	Remember     string `json:"remember" schema:"remember"`
+	RememberHash string `json:"rememberHash" schema:"rememberHash"`
 }
 
 type UserLogin struct {
@@ -48,6 +51,9 @@ func (u *User) FromDomain(d *domain.User) *User {
 	u.Email = d.Email
 	u.Phone = d.Phone
 	u.Password = d.Password
+	u.PasswordHash = d.PasswordHash
+	u.Remember = d.Remember
+	u.RememberHash = d.RememberHash
 
 	return u
 }
@@ -133,6 +139,10 @@ type UserLoginReader interface {
 	Login(domain.Username, domain.Password) (*domain.User, error)
 }
 
+type UserRememberReader interface {
+	ByRemember(token string) (u *domain.User, err error)
+}
+
 type UserCreator interface {
 	Create(*UserCreate) (*domain.User, error)
 }
@@ -156,6 +166,7 @@ type UserService interface {
 	UserPartialUpdater
 	UserDeleter
 	UserLoginReader
+	UserRememberReader
 }
 
 type userService struct {
@@ -166,6 +177,7 @@ type userService struct {
 	partialUpdater repo.UserPartialUpdater
 	deleter        repo.UserDeleter
 	loginReader    repo.UserLoginReader
+	rememberReader repo.UserRememberReader
 	hmac           hash.HMAC
 }
 
@@ -178,6 +190,7 @@ func NewUserService(repo repo.UserRepo) UserService {
 		partialUpdater: repo,
 		deleter:        repo,
 		loginReader:    repo,
+		rememberReader: repo,
 		hmac:           hash.NewHMAC(HmacSecret),
 	}
 }
@@ -199,7 +212,7 @@ func (s *userService) Get(id domain.UserId) (*domain.User, error) {
 
 func (s *userService) Login(username domain.Username, password domain.Password) (*domain.User, error) {
 	user, err := s.loginReader.Login(username, password)
-	// Vlidate if the user is existed in the database or no
+	// Validate if the user is existed in the database or no
 	if err != nil {
 		if err.Error() == "record not found" {
 			return nil, domain.ErrUserNotFound
@@ -221,6 +234,25 @@ func (s *userService) Login(username domain.Username, password domain.Password) 
 
 	err = s.signIn(user)
 	if err != nil {
+		return nil, err
+	}
+
+	return user, err
+}
+
+func (s *userService) ByRemember(token string) (*domain.User, error) {
+	newuser := domain.User{
+		Remember: token,
+	}
+	// Validating and Normalizing then creating the hash
+	s.hmacRememberToken(&newuser)
+
+	user, err := s.rememberReader.ByRemember(newuser.RememberHash)
+	// Validate if the user is existed in the database or no
+	if err != nil {
+		if err.Error() == "record not found" {
+			return nil, domain.ErrUserNotFound
+		}
 		return nil, err
 	}
 
@@ -293,6 +325,8 @@ func (s *userService) signIn(user *domain.User) error {
 			return err
 		}
 		user.Remember = token
+
+		s.hmacRememberToken(user)
 		_, err = s.updater.Update(user.Id, user)
 		if err != nil {
 			return err

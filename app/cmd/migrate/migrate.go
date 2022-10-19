@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/ezn-go/mixture"
+	"github.com/laterius/service_architecture_hw3/app/internal/domain"
 	"github.com/laterius/service_architecture_hw3/app/internal/transport/client/dbrepo"
 	dblogger "gorm.io/gorm/logger"
 
@@ -10,9 +11,6 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/jinzhu/configor"
-
-	"github.com/laterius/service_architecture_hw3/app/internal/domain"
-	_ "github.com/laterius/service_architecture_hw3/app/migrations"
 )
 
 func main() {

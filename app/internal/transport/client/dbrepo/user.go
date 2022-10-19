@@ -19,6 +19,14 @@ func (r *userRepo) Get(id domain.UserId) (u *domain.User, err error) {
 	return
 }
 
+// ByRemember looks up a user with the given remember token and returns that user.
+// These methods expect the remember token to be already hashed.
+// Errors handled as the same done by the ByEmail.
+func (r *userRepo) ByRemember(rememberHash string) (u *domain.User, err error) {
+	err = r.db.Model(u).Where("remember_hash = ?", rememberHash).First(&u).Error
+	return
+}
+
 func (r *userRepo) Login(username domain.Username, password domain.Password) (u *domain.User, err error) {
 	err = r.db.Model(u).Where("username = ?", username).First(&u).Error
 	return

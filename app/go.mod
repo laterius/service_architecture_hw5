@@ -9,10 +9,7 @@ require (
 	github.com/gofiber/adaptor/v2 v2.1.25
 	github.com/gofiber/fiber/v2 v2.37.1
 	github.com/gofiber/template v1.7.1
-	github.com/gorilla/mux v1.7.3
-	github.com/gorilla/schema v1.2.0
 	github.com/jinzhu/configor v1.2.1
-	github.com/jinzhu/gorm v1.9.16
 	github.com/prometheus/client_golang v1.13.0
 	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
 	gorm.io/driver/postgres v1.3.8
@@ -39,7 +36,6 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/klauspost/compress v1.15.0 // indirect
-	github.com/lib/pq v1.10.2 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect

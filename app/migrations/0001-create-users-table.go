@@ -14,9 +14,9 @@ func init() {
 		Email        string `json:"email"`
 		Phone        string `json:"phone"`
 		Password     string `json:"password"`
-		PasswordHash string //`gorm:"not null"`
-		Remember     string //`gorm:"-"`
-		RememberHash string //`gorm:"not null;unique_index"`
+		PasswordHash string `json:"passwordHash"`
+		Remember     string `json:"remember"`
+		RememberHash string `json:"rememberHash"`
 	}
 
 	mx := &gormigrate.Migration{
