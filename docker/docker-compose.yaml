@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     container_name: app
-    image: 34234247632/otus-msa-hw5:v1.10
+    image: 34234247632/otus-msa-hw5:v2.1
     networks:
       - otus-msa-hw5
     restart: always
@@ -19,7 +19,7 @@ services:
     networks:
       - otus-msa-hw5
     ports:
-      - "5433:5433"
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres

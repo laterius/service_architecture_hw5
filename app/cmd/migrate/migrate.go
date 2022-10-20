@@ -5,6 +5,7 @@ import (
 	"github.com/ezn-go/mixture"
 	"github.com/laterius/service_architecture_hw3/app/internal/domain"
 	"github.com/laterius/service_architecture_hw3/app/internal/transport/client/dbrepo"
+	_ "github.com/laterius/service_architecture_hw3/app/migrations"
 	dblogger "gorm.io/gorm/logger"
 
 	"gorm.io/driver/postgres"
