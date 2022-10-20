@@ -248,6 +248,8 @@ func (s *userService) ByRemember(token string) (*domain.User, error) {
 	s.hmacRememberToken(&newuser)
 
 	user, err := s.rememberReader.ByRemember(newuser.RememberHash)
+	//TODO надо протестировать, может лишнее
+	user.Remember = token
 	// Validate if the user is existed in the database or no
 	if err != nil {
 		if err.Error() == "record not found" {

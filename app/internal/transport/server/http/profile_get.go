@@ -31,7 +31,12 @@ func (h *getProfileHandler) Handle() fiber.Handler {
 		}
 
 		return ctx.Render("profile", fiber.Map{
-			"firstName": user.FirstName,
+			"FirstName": user.FirstName,
+			"LastName":  user.LastName,
+			"Username":  user.Username,
+			"Phone":     user.Phone,
+			"Email":     user.Email,
+			"Token":     user.Remember,
 		})
 	}
 }
