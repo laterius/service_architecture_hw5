@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     container_name: app
-    image: 34234247632/otus-msa-hw5:v2.1
+    image: 34234247632/otus-msa-hw5:v2.2
     networks:
       - otus-msa-hw5
     restart: always

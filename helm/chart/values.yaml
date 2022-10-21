@@ -1,0 +1,22 @@
+replicaCount: 3
+
+image:
+  repository: 34234247632/otus-msa-hw5
+  pullPolicy: IfNotPresent
+  tag: v2.2
+  command: ["/app/service"]
+  migrateCommand: ["/entrypoint-migrate.sh"]
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: arch.homework
+      paths:
+        - path: /
+          pathType: Prefix

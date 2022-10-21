@@ -18,14 +18,13 @@ type getProfileHandler struct {
 
 func (h *getProfileHandler) Handle() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-
+		//TODO доделать
 		token := ctx.Params(TokenFieldName, "")
 		if token == "" {
 			return fail(ctx, errors.New("token is empty"))
 		}
 
 		user, err := h.reader.ByRemember(token)
-
 		if err != nil {
 			return fail(ctx, err)
 		}

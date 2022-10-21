@@ -52,7 +52,7 @@ func main() {
 	loginGet := transport.LoginGet()
 	loginPost := transport.LoginPost(userService)
 	profileGet := transport.NewGetProfile(userService)
-	profilePost := transport.NewPostProfile(userService)
+	profilePost := transport.NewPostProfile(userService, userService)
 
 	engine := html.New("./views", ".html")
 	srv := fiber.New(fiber.Config{Views: engine})
@@ -83,7 +83,7 @@ func main() {
 	srv.Get("/login", loginGet.Handle())
 	srv.Post("/login", loginPost.Handle())
 	srv.Get("/profile/:token", profileGet.Handle())
-	srv.Post("/profile", profilePost.Handle())
+	srv.Post("/profile/:id", profilePost.Handle())
 
 	srv.All("/*", transport.DefaultResponse)
 
