@@ -12,9 +12,8 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "otus-msa-hw5.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: http://otus-msa-hw5.default.svc.cluster.local/login
+    nginx.ingress.kubernetes.io/auth-url: http://otus-msa-hw5.otus-msa-hw5.svc.cluster.local/login
     nginx.ingress.kubernetes.io/auth-response-headers: x-auth-token
 spec:
   ingressClassName: {{ .Values.ingress.className }}
